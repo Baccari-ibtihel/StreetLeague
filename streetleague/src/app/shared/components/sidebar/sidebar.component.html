@@ -1,0 +1,95 @@
+﻿<aside class="fixed left-0 top-0 h-full w-64 bg-secondary text-white py-8">
+  <div class="px-6 mb-8">
+    <a routerLink="/" class="text-2xl font-bold text-primary">StreetLeague</a>
+  </div>
+
+  <!-- User Info -->
+  <div class="px-6 mb-8 pb-6 border-b border-gray-700">
+    <div class="flex items-center space-x-3 mb-3">
+      <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl">
+        {{ (authService.currentUser()?.name?.charAt(0) || 'U') }}
+      </div>
+      <div>
+        <div class="font-semibold">{{ authService.currentUser()?.name || 'Utilisateur' }}</div>
+        <div class="text-sm text-gray-400">Level {{ authService.currentUser()?.level || 1 }}</div>
+      </div>
+    </div>
+    <div class="w-full bg-gray-700 rounded-full h-2">
+      <div class="bg-primary rounded-full h-2" 
+           [style.width]="(authService.currentUser()?.xp || 0) / (authService.currentUser()?.nextLevelXp || 1) * 100 + '%'">
+      </div>
+    </div>
+    <div class="text-xs text-gray-400 mt-1">
+      {{ authService.currentUser()?.xp || 0 }} / {{ authService.currentUser()?.nextLevelXp || 1000 }} XP
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="px-4">
+    <div class="mb-6">
+      <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-2">Main</div>
+      <a routerLink="/dashboard" routerLinkActive="bg-primary/20 text-primary" 
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-home w-5"></i>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/dashboard/team" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-users w-5"></i>
+        <span>Team</span>
+      </a>
+      <a routerLink="/dashboard/matches" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-trophy w-5"></i>
+        <span>Matches</span>
+      </a>
+      <a routerLink="/dashboard/booking" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-calendar-check w-5"></i>
+        <span>Booking</span>
+      </a>
+      <a routerLink="/dashboard/terrains" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-map-marker-alt w-5"></i>
+        <span>Terrains</span>
+      </a>
+      <a routerLink="/dashboard/community" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-comments w-5"></i>
+        <span>Community</span>
+      </a>
+    </div>
+
+    <div class="mb-6">
+      <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-2">Performance</div>
+      <a routerLink="/dashboard/performance" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-chart-line w-5"></i>
+        <span>Performance</span>
+      </a>
+      <a routerLink="/dashboard/sponsors" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-handshake w-5"></i>
+        <span>Sponsors</span>
+      </a>
+    </div>
+
+    <div *ngIf="authService.currentUser()?.role === 'admin'" class="mb-6">
+      <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-2">Admin</div>
+      <a routerLink="/dashboard/admin" routerLinkActive="bg-primary/20 text-primary"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
+        <i class="fas fa-cog w-5"></i>
+        <span>Admin</span>
+      </a>
+    </div>
+
+    <!-- Déconnexion -->
+    <div class="absolute bottom-8 left-0 w-full px-4">
+      <button (click)="logout()" 
+              class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-error/20 text-error transition w-full">
+        <i class="fas fa-sign-out-alt w-5"></i>
+        <span>Déconnexion</span>
+      </button>
+    </div>
+  </nav>
+</aside>

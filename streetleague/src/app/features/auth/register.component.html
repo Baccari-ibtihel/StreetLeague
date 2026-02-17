@@ -1,0 +1,127 @@
+﻿<div class="space-y-6">
+  <div class="text-center">
+    <h2 class="text-2xl font-bold text-text-dark">Créez votre compte</h2>
+  </div>
+
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Sélection du rôle -->
+    <div>
+      <label class="block text-sm font-medium text-text-dark mb-2">Je suis un(e)</label>
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Option Joueur -->
+        <button 
+          type="button"
+          (click)="selectedRole = 'player'"
+          [class]="selectedRole === 'player' 
+            ? 'bg-primary text-white border-primary' 
+            : 'border-2 border-gray-200 text-text-dark hover:border-primary'"
+          class="p-4 rounded-lg transition text-center"
+        >
+          <div class="font-semibold">Joueur</div>
+          <div class="text-sm opacity-75">Je veux jouer et participer</div>
+        </button>
+
+        <!-- Option Propriétaire -->
+        <button 
+          type="button"
+          (click)="selectedRole = 'owner'"
+          [class]="selectedRole === 'owner' 
+            ? 'bg-primary text-white border-primary' 
+            : 'border-2 border-gray-200 text-text-dark hover:border-primary'"
+          class="p-4 rounded-lg transition text-center"
+        >
+          <div class="font-semibold">Propriétaire</div>
+          <div class="text-sm opacity-75">Je possède un terrain</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Nom complet -->
+    <div>
+      <label for="name" class="block text-sm font-medium text-text-dark mb-1">Nom complet</label>
+      <input 
+        type="text" 
+        id="name"
+        name="name"
+        [(ngModel)]="name"
+        required
+        placeholder="Jean Dupont"
+        class="input-field"
+      >
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email" class="block text-sm font-medium text-text-dark mb-1">Email</label>
+      <input 
+        type="email" 
+        id="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+        email
+        placeholder="votre.email@exemple.com"
+        class="input-field"
+      >
+    </div>
+
+    <!-- Mot de passe -->
+    <div>
+      <label for="password" class="block text-sm font-medium text-text-dark mb-1">Mot de passe</label>
+      <input 
+        type="password" 
+        id="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="6"
+        placeholder="••••••••"
+        class="input-field"
+      >
+    </div>
+
+    <!-- Confirmer mot de passe -->
+    <div>
+      <label for="confirmPassword" class="block text-sm font-medium text-text-dark mb-1">Confirmer le mot de passe</label>
+      <input 
+        type="password" 
+        id="confirmPassword"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        required
+        placeholder="••••••••"
+        class="input-field"
+      >
+      <p *ngIf="password !== confirmPassword && confirmPassword" class="text-error text-sm mt-1">
+        Les mots de passe ne correspondent pas
+      </p>
+    </div>
+
+    <!-- Bouton d'inscription -->
+    <button 
+      type="submit"
+      [disabled]="!registerForm.valid || password !== confirmPassword"
+      class="w-full btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      Créer mon compte
+    </button>
+
+    <!-- Séparateur -->
+    <div class="relative">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+      <div class="relative flex justify-center text-sm">
+        <span class="px-2 bg-white text-text-light">ou</span>
+      </div>
+    </div>
+
+    <!-- Lien vers connexion -->
+    <div class="text-center text-sm">
+      <span class="text-text-light">Vous avez déjà un compte ?</span>
+      <a routerLink="/login" class="ml-1 text-primary hover:text-primary-dark font-medium">
+        Connectez-vous
+      </a>
+    </div>
+  </form>
+</div>

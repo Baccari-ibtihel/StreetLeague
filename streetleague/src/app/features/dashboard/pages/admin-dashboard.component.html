@@ -1,0 +1,85 @@
+﻿<div class="p-6 space-y-6">
+  <h1 class="text-3xl font-bold text-text-dark">Dashboard</h1>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <div class="text-3xl font-bold text-primary">2,456</div>
+      <div class="text-text-light">Total Users</div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <div class="text-3xl font-bold text-primary">342</div>
+      <div class="text-text-light">Active Bookings</div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <div class="text-3xl font-bold text-primary">1,234</div>
+      <div class="text-text-light">Inventory Items</div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <div class="text-3xl font-bold text-primary">$45.2k</div>
+      <div class="text-text-light">Revenue</div>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="bg-white rounded-xl shadow-lg p-6">
+    <h2 class="text-xl font-semibold mb-4">Users</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b">
+            <th class="text-left py-3">User</th>
+            <th class="text-left">Role</th>
+            <th class="text-left">Email</th>
+            <th class="text-left">Status</th>
+            <th class="text-left">Join Date</th>
+            <th class="text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b">
+            <td class="py-3">Alex Rivera</td>
+            <td>Player</td>
+            <td>alex&#64;example.com</td>
+            <td><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Active</span></td>
+            <td>2025-11-15</td>
+            <td>
+              <button class="text-primary hover:text-primary-dark mr-2">Edit</button>
+              <button class="text-red-600 hover:text-red-800">Delete</button>
+            </td>
+          </tr>
+          <tr class="border-b">
+            <td class="py-3">Morgan Lee</td>
+            <td>Player</td>
+            <td>morgan&#64;example.com</td>
+            <td><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Open</span></td>
+            <td>2025-10-20</td>
+            <td>
+              <button class="text-primary hover:text-primary-dark mr-2">Edit</button>
+              <button class="text-red-600 hover:text-red-800">Delete</button>
+            </td>
+          </tr>
+          <tr class="border-b">
+            <td class="py-3">Jordan Chen</td>
+            <td>Player</td>
+            <td>jordan&#64;example.com</td>
+            <td><span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Inactive</span></td>
+            <td>2025-09-12</td>
+            <td>
+              <button class="text-primary hover:text-primary-dark mr-2">Edit</button>
+              <button class="text-red-600 hover:text-red-800">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="flex justify-between items-center mt-4">
+      <div class="text-sm text-text-light">Showing 1 to 5 entries</div>
+      <div class="flex space-x-2">
+        <button class="px-4 py-2 border rounded-lg hover:bg-primary/10">Previous</button>
+        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
