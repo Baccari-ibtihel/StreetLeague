@@ -1,24 +1,21 @@
 ﻿<header class="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
   <nav class="container mx-auto flex items-center justify-between py-4 px-4">
-    <div class="text-2xl font-bold text-primary cursor-pointer" routerLink="/">
+    <a routerLink="/" class="text-2xl font-bold text-primary cursor-pointer">
       StreetLeague
-    </div>
+    </a>
     
     <div class="hidden md:flex space-x-8">
-      <a routerLink="/" routerLinkActive="text-primary" class="hover:text-primary transition text-text-dark" [routerLinkActiveOptions]="{exact: true}">Accueil</a>
+      <a routerLink="/" routerLinkActive="text-primary" class="hover:text-primary transition text-text-dark">Accueil</a>
       <a routerLink="/about" class="hover:text-primary transition text-text-dark">À propos</a>
       <a routerLink="/explore" class="hover:text-primary transition text-text-dark">Explorer</a>
       <a routerLink="/contact" class="hover:text-primary transition text-text-dark">Contact</a>
     </div>
     
-    <div class="flex space-x-4">
-      <!-- Bouton Connexion (lien vers login) -->
-      <a routerLink="/login" class="px-4 py-2 text-text-dark hover:text-primary transition font-medium cursor-pointer">
+    <div class="flex items-center space-x-4">
+      <a routerLink="/login" class="px-4 py-2 text-text-dark hover:text-primary transition font-medium">
         Connexion
       </a>
-      
-      <!-- Bouton Inscription (lien vers register) -->
-      <a routerLink="/register" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition shadow-md font-medium cursor-pointer">
+      <a routerLink="/register" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition shadow-md font-medium">
         S'inscrire
       </a>
     </div>

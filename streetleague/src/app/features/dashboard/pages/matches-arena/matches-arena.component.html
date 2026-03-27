@@ -1,128 +1,150 @@
 ﻿<div class="p-6 space-y-6">
-  <h1 class="text-3xl font-bold text-text-dark">Match & Tournament Arena</h1>
-  <p class="text-text-light">Track your competitions and climb the leaderboards</p>
+  <!-- Header -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-text-dark">Match & Competition Arena</h1>
+      <p class="text-text-light">Track your competitions and climb the leaderboards</p>
+    </div>
+  </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Left Column - Upcoming Matches -->
-    <div class="lg:col-span-2 space-y-6">
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-semibold mb-4">Upcoming Matches</h2>
-        
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b pb-4">
-            <div>
-              <div class="font-semibold text-lg">vs Street Warriors</div>
-              <div class="text-sm text-text-light">League Match</div>
-              <div class="text-sm text-text-light">Feb 5, 2026 • 6:00 PM</div>
-              <div class="text-sm text-text-light">Central Arena</div>
-            </div>
-            <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Prepare</button>
-          </div>
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white rounded-xl shadow-lg p-4 text-center">
+      <div class="text-3xl font-bold text-primary">{{ stats.totalWins }}</div>
+      <div class="text-sm text-text-light">Total Wins</div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-4 text-center">
+      <div class="text-3xl font-bold text-primary">{{ stats.winRate }}%</div>
+      <div class="text-sm text-text-light">Win Rate</div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-4 text-center">
+      <div class="text-3xl font-bold text-primary">{{ stats.winStreak }}</div>
+      <div class="text-sm text-text-light">Win Streak</div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-4 text-center">
+      <div class="text-3xl font-bold text-primary">#{{ stats.leagueRank }}</div>
+      <div class="text-sm text-text-light">League Rank</div>
+    </div>
+  </div>
 
-          <div class="flex justify-between items-center border-b pb-4">
-            <div>
-              <div class="font-semibold text-lg">vs Urban Legends</div>
-              <div class="text-sm text-text-light">Tournament</div>
-              <div class="text-sm text-text-light">Feb 8, 2026 • 5:30 PM</div>
-              <div class="text-sm text-text-light">City Stadium</div>
-            </div>
-            <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Prepare</button>
-          </div>
+  <!-- Tabs -->
+  <div class="flex space-x-4 border-b">
+    <button (click)="activeTab = 'upcoming'" [class]="activeTab === 'upcoming' ? 'text-primary border-b-2 border-primary' : ''" class="px-4 py-2 font-medium">Upcoming Matches</button>
+    <button (click)="activeTab = 'results'" [class]="activeTab === 'results' ? 'text-primary border-b-2 border-primary' : ''" class="px-4 py-2 font-medium">Recent Results</button>
+    <button (click)="activeTab = 'tournament'" [class]="activeTab === 'tournament' ? 'text-primary border-b-2 border-primary' : ''" class="px-4 py-2 font-medium">Tournament Bracket</button>
+  </div>
 
+  <!-- Upcoming Matches -->
+  @if (activeTab === 'upcoming') {
+    <div class="space-y-4">
+      @for (match of upcomingMatches; track match.id) {
+        <div class="bg-white rounded-xl shadow-lg p-6">
           <div class="flex justify-between items-center">
             <div>
-              <div class="font-semibold text-lg">vs Night Hawks</div>
-              <div class="text-sm text-text-light">Finale</div>
-              <div class="text-sm text-text-light">Feb 12, 2026 • 7:00 PM</div>
-              <div class="text-sm text-text-light">West Sports Complex</div>
+              <div class="flex items-center space-x-3">
+                <h3 class="text-xl font-semibold">vs {{ match.opponent }}</h3>
+                <span class="text-xs px-2 py-1 rounded-full {{ getTypeColor(match.type) }}">{{ match.type }}</span>
+              </div>
+              <p class="text-text-light">{{ match.date }} • {{ match.time }} • {{ match.location }}</p>
             </div>
-            <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Prepare</button>
+            <div class="flex space-x-2">
+              <button (click)="joinMatch(match.id)" class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Préparer</button>
+              <button (click)="completeMatch(match)" class="border-2 border-primary text-primary px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-check-circle mr-1"></i>Terminer
+              </button>
+            </div>
           </div>
         </div>
+      }
+      <button (click)="showScheduleModal = true" class="w-full border-2 border-dashed border-primary text-primary py-4 rounded-lg">
+        + Schedule New Match
+      </button>
+    </div>
+  }
 
-        <button class="w-full mt-6 border-2 border-primary text-primary py-3 rounded-lg hover:bg-primary/10 transition font-medium">
-          + Schedule New Match
-        </button>
-      </div>
+  <!-- Recent Results -->
+  @if (activeTab === 'results') {
+    <div class="space-y-4">
+      @for (match of recentResults; track match.id) {
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-xl font-semibold">vs {{ match.opponent }}</h3>
+              <p class="text-text-light">{{ match.date }}</p>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-bold {{ getResultColor(match.outcome) }}">{{ match.result }}</div>
+              <div class="text-sm uppercase {{ getResultColor(match.outcome) }}">{{ match.outcome }}</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
 
-      <!-- Tournament Bracket -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-semibold mb-4">Tournament Bracket - Street League Championship</h2>
-        
-        <div class="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <div class="font-semibold text-primary mb-2">Quarter Finals</div>
-            <div class="bg-background-light p-2 rounded mb-1">Thunder Strikers</div>
-            <div class="bg-background-light p-2 rounded">Street Warriors</div>
-          </div>
-          <div>
-            <div class="font-semibold text-primary mb-2">Semi Finals</div>
-            <div class="bg-background-light p-2 rounded mb-1">Thunder Strikers</div>
-            <div class="bg-background-light p-2 rounded">TBD</div>
-          </div>
-          <div>
-            <div class="font-semibold text-primary mb-2">Finals</div>
-            <div class="bg-background-light p-2 rounded">TBD</div>
-          </div>
+  <!-- Tournament Bracket -->
+  @if (activeTab === 'tournament') {
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-xl font-semibold mb-6">{{ tournamentBracket.name }}</h2>
+      <div class="grid grid-cols-3 gap-4 text-center">
+        <div>
+          <h3 class="font-semibold mb-3">Quarter Finals</h3>
+          @for (team of tournamentBracket.quarterFinals; track team) {
+            <div class="bg-gray-100 p-2 rounded mb-2">{{ team }}</div>
+          }
+        </div>
+        <div>
+          <h3 class="font-semibold mb-3">Semi Finals</h3>
+          @for (team of tournamentBracket.semiFinals; track team) {
+            <div class="bg-gray-100 p-2 rounded mb-2">{{ team }}</div>
+          }
+        </div>
+        <div>
+          <h3 class="font-semibold mb-3">Finals</h3>
+          @for (team of tournamentBracket.finals; track team) {
+            <div class="bg-gray-100 p-2 rounded mb-2">{{ team }}</div>
+          }
         </div>
       </div>
     </div>
+  }
 
-    <!-- Right Column -->
-    <div class="space-y-6">
-      <!-- Recent Results -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-semibold mb-4">Recent Results</h2>
-        
+  <!-- Quick Actions -->
+  <div class="grid grid-cols-3 gap-4">
+    <button (click)="registerForTournament()" class="bg-primary text-white py-3 rounded-lg">Register Tournament</button>
+    <button (click)="challengeTeam()" class="border-2 border-primary text-primary py-3 rounded-lg">Challenge Team</button>
+    <button class="border-2 border-primary text-primary py-3 rounded-lg">View Leaderboard</button>
+  </div>
+
+  <!-- Schedule Modal -->
+  @if (showScheduleModal) {
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white rounded-xl p-6 max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-4">Schedule New Match</h2>
         <div class="space-y-3">
-          <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-            <div>
-              <div class="font-semibold">Thunder FC</div>
-              <div class="text-xs text-text-light">Jan 24, 2026</div>
-            </div>
-            <div class="text-green-600 font-bold">WON 3-1</div>
+          <input type="text" [(ngModel)]="newMatch.opponent" placeholder="Opponent" class="w-full border p-2 rounded">
+          <select [(ngModel)]="newMatch.type" class="w-full border p-2 rounded">
+            <option value="league">League Match</option>
+            <option value="tournament">Tournament</option>
+            <option value="friendly">Friendly</option>
+          </select>
+          <input type="date" [(ngModel)]="newMatch.date" class="w-full border p-2 rounded">
+          <input type="time" [(ngModel)]="newMatch.time" class="w-full border p-2 rounded">
+          <input type="text" [(ngModel)]="newMatch.location" placeholder="Location" class="w-full border p-2 rounded">
+          <div class="flex space-x-3 pt-4">
+            <button (click)="scheduleMatch()" class="flex-1 bg-primary text-white py-2 rounded-lg">Schedule</button>
+            <button (click)="showScheduleModal = false" class="flex-1 border py-2 rounded-lg">Cancel</button>
           </div>
-
-          <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-            <div>
-              <div class="font-semibold">Storm Chasers</div>
-              <div class="text-xs text-text-light">Jan 26, 2026</div>
-            </div>
-            <div class="text-yellow-600 font-bold">DRAWN 2-2</div>
-          </div>
-
-          <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-            <div>
-              <div class="font-semibold">Fire Dragons</div>
-              <div class="text-xs text-text-light">Jan 22, 2026</div>
-            </div>
-            <div class="text-red-600 font-bold">LOST 1-2</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="font-semibold mb-3">Quick Actions</h3>
-        <div class="space-y-2">
-          <button class="w-full text-left px-4 py-2 hover:bg-primary/10 rounded-lg transition">
-            <i class="fas fa-trophy text-primary mr-2"></i>
-            Register for Tournament
-          </button>
-          <button class="w-full text-left px-4 py-2 hover:bg-primary/10 rounded-lg transition">
-            <i class="fas fa-users text-primary mr-2"></i>
-            Challenge Team
-          </button>
-          <button class="w-full text-left px-4 py-2 hover:bg-primary/10 rounded-lg transition">
-            <i class="fas fa-chart-line text-primary mr-2"></i>
-            View Leaderboard
-          </button>
         </div>
       </div>
     </div>
-  </div>
+  }
 
-  <div class="text-right text-text-light text-sm">
-    baccari.ibithe &#64; Decoration
-  </div>
+  <!-- Modal de fin de match -->
+  @if (showMatchCompletion && selectedMatch) {
+    <app-match-completion 
+      [matchInfo]="selectedMatch" 
+      [teamPlayers]="teamPlayers"
+    ></app-match-completion>
+  }
 </div>

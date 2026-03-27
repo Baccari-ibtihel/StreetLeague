@@ -1,89 +1,155 @@
 ﻿<div class="p-6 space-y-6">
-  <h1 class="text-3xl font-bold text-text-dark">Available fields</h1>
-  <p class="text-text-light">Find the perfect field for your sports activity</p>
+  <!-- Header avec messages -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-text-dark">Available fields</h1>
+      <p class="text-text-light">Find the perfect field for your sports activity</p>
+    </div>
+    
+    <!-- Message de succès -->
+    @if (actionService.successMessage()) {
+      <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg animate-pulse">
+        <i class="fas fa-check-circle mr-2"></i>
+        {{ actionService.successMessage() }}
+      </div>
+    }
+    
+    <!-- Message d'erreur -->
+    @if (actionService.errorMessage()) {
+      <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        {{ actionService.errorMessage() }}
+      </div>
+    }
+  </div>
 
   <!-- Search Bar -->
   <div class="bg-white rounded-xl shadow-lg p-4">
     <div class="relative">
       <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-text-light"></i>
       <input 
-        type="text" 
+        type="text"
+        [(ngModel)]="searchQuery"
         placeholder="Search by name or city..."
         class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
       >
     </div>
   </div>
 
+  <!-- Loading indicator -->
+  @if (actionService.loading()) {
+    <div class="flex justify-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  }
+
   <!-- Fields List -->
   <div class="space-y-4">
-    <!-- Municipal Football Field -->
-    <div class="bg-white rounded-xl shadow-lg p-6">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div class="mb-4 md:mb-0">
-          <h3 class="text-xl font-semibold mb-2">Municipal Football Field</h3>
-          <p class="text-text-light mb-2">
-            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
-            123 Rue du Sport, Paris
-          </p>
-          <div class="flex items-center space-x-4 mb-2">
-            <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">22 joueurs</span>
-            <span class="font-semibold text-primary">50€/h</span>
+    @for (facility of filteredFacilities(); track facility.id) {
+      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div class="mb-4 md:mb-0 md:flex-1">
+            <div class="flex items-center mb-2">
+              <h3 class="text-xl font-semibold text-primary">{{ facility.name }}</h3>
+              <div class="ml-3 flex items-center text-yellow-400">
+                <i class="fas fa-star"></i>
+                <span class="ml-1 text-text-dark">{{ facility.rating }}</span>
+              </div>
+            </div>
+            
+            <p class="text-text-light mb-2">
+              <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+              {{ facility.address }}
+            </p>
+            
+            <div class="flex items-center space-x-4 mb-3">
+              <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
+                <i class="fas fa-users mr-1"></i>
+                {{ facility.players }} joueurs
+              </span>
+              <span class="font-semibold text-primary text-xl">
+                {{ facility.price }}{{ facility.currency }}/h
+              </span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+              @for (amenity of facility.amenities; track amenity) {
+                <span class="text-xs bg-background-light px-3 py-1 rounded-full flex items-center">
+                  <i [class]="getAmenityIcon(amenity)" class="mr-1 text-primary"></i>
+                  {{ amenity }}
+                </span>
+              }
+            </div>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Vestiaires</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Douches</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Parking</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">+1</span>
-          </div>
+          
+          <button 
+            (click)="bookFacility(facility)"
+            [disabled]="actionService.loading()"
+            class="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i class="fas fa-calendar-check mr-2"></i>
+            Réserver
+          </button>
         </div>
-        <button class="btn-primary px-8 py-3">Consult</button>
       </div>
-    </div>
-
-    <!-- Central Basketball Court -->
-    <div class="bg-white rounded-xl shadow-lg p-6">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div class="mb-4 md:mb-0">
-          <h3 class="text-xl font-semibold mb-2">Central Basketball Court</h3>
-          <p class="text-text-light mb-2">
-            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
-            45 Avenue des Champions, Lyon
-          </p>
-          <div class="flex items-center space-x-4 mb-2">
-            <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">10 joueurs</span>
-            <span class="font-semibold text-primary">35€/h</span>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Vestiaires</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Parking</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Eclairage</span>
-          </div>
-        </div>
-        <button class="btn-primary px-8 py-3">Consult</button>
-      </div>
-    </div>
-
-    <!-- Tennis Club Premium -->
-    <div class="bg-white rounded-xl shadow-lg p-6">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div class="mb-4 md:mb-0">
-          <h3 class="text-xl font-semibold mb-2">Tennis Club Premium</h3>
-          <p class="text-text-light mb-2">
-            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
-            78 Boulevard des Sports, Marseille
-          </p>
-          <div class="flex items-center space-x-4 mb-2">
-            <span class="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">12 joueurs</span>
-            <span class="font-semibold text-primary">25€/h</span>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Vestiaires</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Cafeteria</span>
-            <span class="text-xs bg-background-light px-3 py-1 rounded-full">Parking</span>
-          </div>
-        </div>
-        <button class="btn-primary px-8 py-3">Consult</button>
-      </div>
-    </div>
+    }
   </div>
+
+  <!-- Booking Modal -->
+  @if (showBookingModal && selectedFacility) {
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-xl p-6 max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-4">Réserver {{ selectedFacility.name }}</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Date</label>
+            <input type="date" #dateInput class="input-field">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium mb-1">Heure</label>
+            <select #timeSelect class="input-field">
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+              <option value="18:00">18:00</option>
+              <option value="19:00">19:00</option>
+              <option value="20:00">20:00</option>
+              <option value="21:00">21:00</option>
+            </select>
+          </div>
+          
+          <div class="border-t pt-4">
+            <div class="flex justify-between mb-2">
+              <span>Prix par heure</span>
+              <span class="font-bold">{{ selectedFacility.price }}{{ selectedFacility.currency }}</span>
+            </div>
+            <div class="flex justify-between text-lg font-bold">
+              <span>Total</span>
+              <span class="text-primary">{{ selectedFacility.price }}{{ selectedFacility.currency }}</span>
+            </div>
+          </div>
+          
+          <div class="flex space-x-3">
+            <button 
+              (click)="confirmBooking(timeSelect.value, dateInput.value)"
+              [disabled]="actionService.loading()"
+              class="flex-1 bg-primary text-white py-3 rounded-lg hover:bg-primary-dark disabled:opacity-50"
+            >
+              @if (actionService.loading()) {
+                <i class="fas fa-spinner fa-spin mr-2"></i>
+              }
+              Confirmer
+            </button>
+            <button 
+              (click)="cancelBooking()"
+              class="flex-1 border-2 border-gray-300 py-3 rounded-lg hover:bg-gray-50"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>

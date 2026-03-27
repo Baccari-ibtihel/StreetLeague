@@ -1,86 +1,96 @@
-﻿<div class="space-y-6">
-  <div class="text-center">
-    <h2 class="text-2xl font-bold text-text-dark">Connectez-vous à votre compte</h2>
+﻿<div class="min-h-screen bg-background-light flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <a routerLink="/" class="text-3xl font-bold text-primary text-center block mb-8">
+      StreetLeague
+    </a>
   </div>
 
-  <div class="border-b border-gray-200"></div>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
+      <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold text-text-dark">Connectez-vous à votre compte</h2>
+      </div>
 
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="space-y-6">
-    <!-- Email -->
-    <div>
-      <label for="email" class="block text-sm font-medium text-text-dark mb-1">Email</label>
-      <input 
-        type="email" 
-        id="email"
-        name="email"
-        [(ngModel)]="email"
-        required
-        email
-        placeholder="votre.email@exemple.com"
-        class="input-field"
-      >
-    </div>
+      <div class="border-b border-gray-200 mb-6"></div>
 
-    <!-- Mot de passe -->
-    <div>
-      <label for="password" class="block text-sm font-medium text-text-dark mb-1">Mot de passe</label>
-      <div class="relative">
-        <input 
-          [type]="showPassword ? 'text' : 'password'"
-          id="password"
-          name="password"
-          [(ngModel)]="password"
-          required
-          placeholder="•••••••••"
-          class="input-field pr-10"
-        >
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="space-y-6">
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-text-dark mb-1">Email</label>
+          <input 
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            email
+            placeholder="votre.email@exemple.com"
+            class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50"
+          >
+        </div>
+
+        <!-- Mot de passe -->
+        <div>
+          <label class="block text-sm font-medium text-text-dark mb-1">Mot de passe</label>
+          <div class="relative">
+            <input 
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="password"
+              name="password"
+              required
+              placeholder="•••••••••"
+              class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+            <button 
+              type="button"
+              (click)="showPassword = !showPassword"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light hover:text-primary"
+            >
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mot de passe oublié -->
+        <div class="flex items-center justify-end">
+          <a href="#" class="text-sm text-primary hover:text-primary-dark">
+            Mot de passe oublié ?
+          </a>
+        </div>
+
+        <!-- Bouton de connexion -->
         <button 
-          type="button"
-          (click)="showPassword = !showPassword"
-          class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light hover:text-primary"
+          type="submit"
+          [disabled]="!loginForm.valid"
+          class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition font-medium disabled:opacity-50"
         >
-          <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          Se connecter
         </button>
-      </div>
+
+        <!-- Séparateur -->
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-text-light">ou</span>
+          </div>
+        </div>
+
+        <!-- Lien vers inscription -->
+        <div class="text-center text-sm">
+          <span class="text-text-light">Pas encore de compte ?</span>
+          <a routerLink="/register" class="ml-1 text-primary hover:text-primary-dark font-medium">
+            Inscrivez-vous
+          </a>
+        </div>
+      </form>
+
+      <!-- Message d'erreur -->
+      @if (error) {
+        <div class="mt-4 bg-red-100 text-red-800 p-3 rounded-lg text-sm text-center">
+          {{ error }}
+        </div>
+      }
     </div>
-
-    <!-- Mot de passe oublié -->
-    <div class="flex items-center justify-end">
-      <a href="#" class="text-sm text-primary hover:text-primary-dark">
-        Mot de passe oublié ?
-      </a>
-    </div>
-
-    <!-- Bouton de connexion -->
-    <button 
-      type="submit"
-      [disabled]="!loginForm.valid"
-      class="w-full btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      Se connecter
-    </button>
-
-    <!-- Séparateur -->
-    <div class="relative">
-      <div class="absolute inset-0 flex items-center">
-        <div class="w-full border-t border-gray-300"></div>
-      </div>
-      <div class="relative flex justify-center text-sm">
-        <span class="px-2 bg-white text-text-light">ou</span>
-      </div>
-    </div>
-
-    <!-- Lien vers inscription -->
-    <div class="text-center text-sm">
-      <span class="text-text-light">Pas encore de compte ?</span>
-      <a routerLink="/register" class="ml-1 text-primary hover:text-primary-dark font-medium">
-        Inscrivez-vous
-      </a>
-    </div>
-  </form>
-
-  <!-- Message d'erreur -->
-  <div *ngIf="error" class="bg-error/10 text-error p-3 rounded-lg text-sm text-center">
-    {{ error }}
   </div>
 </div>

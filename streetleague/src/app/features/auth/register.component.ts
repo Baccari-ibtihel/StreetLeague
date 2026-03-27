@@ -1,33 +1,36 @@
-﻿import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+﻿import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterLink, CommonModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: []
 })
 export class RegisterComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
   selectedRole: 'player' | 'owner' = 'player';
   name = '';
   email = '';
   password = '';
   confirmPassword = '';
 
-  constructor(private authService: AuthService) {}
-
   onSubmit() {
     if (this.password === this.confirmPassword) {
-      this.authService.register({
+      const success = this.authService.register({
         name: this.name,
         email: this.email,
         password: this.password,
         role: this.selectedRole
       });
+      if (success) {
+        this.router.navigate(['/dashboard']);
+      }
     }
   }
 }

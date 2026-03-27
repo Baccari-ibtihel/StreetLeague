@@ -1,38 +1,13 @@
-﻿<div class="relative" *ngIf="authService.currentUser() as user">
-  <button 
-    (click)="isOpen = !isOpen"
-    class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-primary/10 transition"
-  >
+﻿<div class="relative" *ngIf="authService.currentUser">
+  <div class="flex items-center space-x-2 px-4 py-2 rounded-lg">
     <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
-      {{ user.name.charAt(0) }}
+      {{ authService.currentUser.name.charAt(0) }}
     </div>
-    <span class="text-text-dark">{{ user.name }}</span>
-    <i class="fas fa-chevron-down text-text-light text-sm"></i>
-  </button>
-
-  <!-- Dropdown menu -->
-  <div *ngIf="isOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
-    <a routerLink="/profile" class="block px-4 py-2 text-text-dark hover:bg-primary/10 transition">
-      <i class="fas fa-user mr-2 text-primary"></i>
-      Mon profil
-    </a>
-    <a routerLink="/my-bookings" class="block px-4 py-2 text-text-dark hover:bg-primary/10 transition">
-      <i class="fas fa-calendar mr-2 text-primary"></i>
-      Mes réservations
-    </a>
-    <div class="border-t border-gray-200 my-2"></div>
-    <button 
-      (click)="logout()"
-      class="w-full text-left px-4 py-2 text-error hover:bg-error/10 transition"
-    >
-      <i class="fas fa-sign-out-alt mr-2"></i>
-      Déconnexion
-    </button>
+    <span class="text-text-dark hidden md:inline">{{ authService.currentUser.name }}</span>
   </div>
 </div>
 
-<!-- Boutons non connecté -->
-<div *ngIf="!authService.currentUser()" class="flex space-x-4">
+<div *ngIf="!authService.currentUser" class="flex space-x-4">
   <a routerLink="/login" class="px-4 py-2 text-text-dark hover:text-primary transition font-medium">
     Connexion
   </a>

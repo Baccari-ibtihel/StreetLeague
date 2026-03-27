@@ -1,23 +1,23 @@
-﻿import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+﻿import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink, CommonModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: []
 })
 export class LoginComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
   email = '';
   password = '';
   showPassword = false;
   error = '';
-
-  constructor(private authService: AuthService) {}
 
   onSubmit() {
     this.error = '';

@@ -1,95 +1,120 @@
-﻿<aside class="fixed left-0 top-0 h-full w-64 bg-secondary text-white py-8">
+﻿<aside class="fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-gray-900 to-gray-800 text-white py-8 overflow-y-auto shadow-xl">
+  <!-- Logo -->
   <div class="px-6 mb-8">
-    <a routerLink="/" class="text-2xl font-bold text-primary">StreetLeague</a>
+    <a routerLink="/" class="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+      StreetLeague
+    </a>
   </div>
 
   <!-- User Info -->
   <div class="px-6 mb-8 pb-6 border-b border-gray-700">
-    <div class="flex items-center space-x-3 mb-3">
-      <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl">
-        {{ (authService.currentUser()?.name?.charAt(0) || 'U') }}
+    <div class="flex items-center space-x-3">
+      <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+        J
       </div>
       <div>
-        <div class="font-semibold">{{ authService.currentUser()?.name || 'Utilisateur' }}</div>
-        <div class="text-sm text-gray-400">Level {{ authService.currentUser()?.level || 1 }}</div>
+        <div class="font-semibold">Jordan Smith</div>
+        <div class="text-xs text-gray-400">Multi-Sport Athlete</div>
       </div>
-    </div>
-    <div class="w-full bg-gray-700 rounded-full h-2">
-      <div class="bg-primary rounded-full h-2" 
-           [style.width]="(authService.currentUser()?.xp || 0) / (authService.currentUser()?.nextLevelXp || 1) * 100 + '%'">
-      </div>
-    </div>
-    <div class="text-xs text-gray-400 mt-1">
-      {{ authService.currentUser()?.xp || 0 }} / {{ authService.currentUser()?.nextLevelXp || 1000 }} XP
     </div>
   </div>
 
-  <!-- Navigation -->
-  <nav class="px-4">
-    <div class="mb-6">
-      <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-2">Main</div>
-      <a routerLink="/dashboard" routerLinkActive="bg-primary/20 text-primary" 
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-home w-5"></i>
-        <span>Dashboard</span>
-      </a>
-      <a routerLink="/dashboard/team" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-users w-5"></i>
-        <span>Team</span>
-      </a>
-      <a routerLink="/dashboard/matches" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-trophy w-5"></i>
-        <span>Matches</span>
-      </a>
-      <a routerLink="/dashboard/booking" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-calendar-check w-5"></i>
-        <span>Booking</span>
-      </a>
-      <a routerLink="/dashboard/terrains" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-map-marker-alt w-5"></i>
-        <span>Terrains</span>
-      </a>
-      <a routerLink="/dashboard/community" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-comments w-5"></i>
-        <span>Community</span>
-      </a>
-    </div>
+  <!-- Navigation Menu -->
+  <nav class="px-4 space-y-1">
+    <!-- Dashboard -->
+    <a routerLink="/dashboard" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-home w-5 text-green-500"></i>
+      <span class="font-medium">Dashboard</span>
+    </a>
 
-    <div class="mb-6">
-      <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-2">Performance</div>
-      <a routerLink="/dashboard/performance" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-chart-line w-5"></i>
-        <span>Performance</span>
-      </a>
-      <a routerLink="/dashboard/sponsors" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-handshake w-5"></i>
-        <span>Sponsors</span>
-      </a>
-    </div>
+    <!-- Activité -->
+    <a routerLink="/dashboard/activity" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-chart-line w-5 text-green-500"></i>
+      <span class="font-medium">Activité</span>
+    </a>
 
-    <div *ngIf="authService.currentUser()?.role === 'admin'" class="mb-6">
-      <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-2">Admin</div>
-      <a routerLink="/dashboard/admin" routerLinkActive="bg-primary/20 text-primary"
-         class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-primary/10 transition mb-1">
-        <i class="fas fa-cog w-5"></i>
-        <span>Admin</span>
-      </a>
-    </div>
+    <!-- Team -->
+    <a routerLink="/dashboard/team" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-users w-5 text-green-500"></i>
+      <span class="font-medium">Team</span>
+    </a>
 
-    <!-- Déconnexion -->
-    <div class="absolute bottom-8 left-0 w-full px-4">
-      <button (click)="logout()" 
-              class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-error/20 text-error transition w-full">
-        <i class="fas fa-sign-out-alt w-5"></i>
-        <span>Déconnexion</span>
-      </button>
-    </div>
+    <!-- Matches -->
+    <a routerLink="/dashboard/matches" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-trophy w-5 text-green-500"></i>
+      <span class="font-medium">Matches</span>
+    </a>
+
+    <!-- Booking -->
+    <a routerLink="/dashboard/booking" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-calendar-check w-5 text-green-500"></i>
+      <span class="font-medium">Booking</span>
+    </a>
+
+    <!-- Terrains -->
+    <a routerLink="/dashboard/terrains" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-map-marker-alt w-5 text-green-500"></i>
+      <span class="font-medium">Terrains</span>
+    </a>
+
+    <!-- Community -->
+    <a routerLink="/dashboard/community" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-comments w-5 text-green-500"></i>
+      <span class="font-medium">Community</span>
+    </a>
+
+    <!-- Divider -->
+    <div class="border-t border-gray-700 my-4"></div>
+
+    <!-- Performance -->
+    <a routerLink="/dashboard/performance" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-chart-bar w-5 text-green-500"></i>
+      <span class="font-medium">Performance</span>
+    </a>
+
+    <!-- HEALTH CARE - AJOUTÉ ICI -->
+    <a routerLink="/dashboard/health" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-heartbeat w-5 text-green-500"></i>
+      <span class="font-medium">Health Care</span>
+    </a>
+
+    <!-- Collaboration -->
+    <a routerLink="/dashboard/collaboration" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-handshake w-5 text-green-500"></i>
+      <span class="font-medium">Collaboration</span>
+    </a>
+
+    <!-- Sponsors -->
+    <a routerLink="/dashboard/sponsors" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-gem w-5 text-green-500"></i>
+      <span class="font-medium">Sponsors</span>
+    </a>
+
+    <!-- Admin -->
+    <a routerLink="/dashboard/admin" routerLinkActive="bg-green-600/20 text-green-400 border-l-4 border-green-500" 
+       class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-green-600/10 transition-all duration-200 text-gray-300 hover:text-white">
+      <i class="fas fa-cog w-5 text-green-500"></i>
+      <span class="font-medium">Admin</span>
+    </a>
   </nav>
+
+  <!-- Déconnexion -->
+  <div class="absolute bottom-8 left-0 w-full px-4">
+    <button (click)="logout()" 
+            class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-600/20 text-red-400 transition-all duration-200 w-full">
+      <i class="fas fa-sign-out-alt w-5"></i>
+      <span class="font-medium">Déconnexion</span>
+    </button>
+  </div>
 </aside>
